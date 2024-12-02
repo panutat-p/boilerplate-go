@@ -1,21 +1,25 @@
 package handler
 
 import (
+	"log/slog"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
 
+	"boilerplate-go/internal/config"
 	"boilerplate-go/internal/store"
 	"boilerplate-go/internal/usecase"
 )
 
 type Handler struct {
+	config  *config.Config
 	useCase usecase.IUseCase
 	store   store.IStore
 }
 
-func NewHandler(useCase usecase.IUseCase, store store.IStore) *Handler {
+func NewHandler(config *config.Config, useCase usecase.IUseCase, store store.IStore) *Handler {
 	return &Handler{
+		config:  config,
 		useCase: useCase,
 		store:   store,
 	}
@@ -29,7 +33,10 @@ func (h *Handler) Health(c echo.Context) error {
 }
 
 func (h *Handler) GetFruits(c echo.Context) error {
-	fruits, err := h.useCase.GetFruits(nil)
+	ctx := c.Request().Context()
+	slog.Info("GET /public/fruits")
+
+	fruits, err := h.useCase.GetFruits(ctx)
 	if err != nil {
 		return c.JSON(
 			http.StatusInternalServerError,

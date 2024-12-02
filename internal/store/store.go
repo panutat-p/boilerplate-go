@@ -6,8 +6,10 @@ import (
 	"context"
 	"encoding/json"
 	"io/ioutil"
+	"log/slog"
 	"os"
 
+	"boilerplate-go/internal/config"
 	"boilerplate-go/internal/model"
 )
 
@@ -16,15 +18,19 @@ type IStore interface {
 }
 
 type Store struct {
+	config *config.Config
 }
 
-func NewStore() *Store {
-	return &Store{}
+func NewStore(config *config.Config) *Store {
+	return &Store{
+		config: config,
+	}
 }
 
-func (s *Store) ReadFruitFile(context.Context) ([]model.Fruit, error) {
+func (s *Store) ReadFruitFile(ctx context.Context) ([]model.Fruit, error) {
 	file, err := os.Open("./data/fruit.json")
 	if err != nil {
+		slog.ErrorContext(ctx, "Failed to Open a file", slog.Any("err", err))
 		return nil, err
 	}
 	defer file.Close()

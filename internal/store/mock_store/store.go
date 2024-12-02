@@ -10,6 +10,10 @@
 package mock_store
 
 import (
+	model "boilerplate-go/internal/model"
+	context "context"
+	reflect "reflect"
+
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -35,4 +39,19 @@ func NewMockIStore(ctrl *gomock.Controller) *MockIStore {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockIStore) EXPECT() *MockIStoreMockRecorder {
 	return m.recorder
+}
+
+// ReadFruitFile mocks base method.
+func (m *MockIStore) ReadFruitFile(ctx context.Context) ([]model.Fruit, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ReadFruitFile", ctx)
+	ret0, _ := ret[0].([]model.Fruit)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ReadFruitFile indicates an expected call of ReadFruitFile.
+func (mr *MockIStoreMockRecorder) ReadFruitFile(ctx any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadFruitFile", reflect.TypeOf((*MockIStore)(nil).ReadFruitFile), ctx)
 }

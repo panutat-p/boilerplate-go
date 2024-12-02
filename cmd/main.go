@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log/slog"
+	"os"
+
 	"github.com/caarlos0/env/v11"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -13,6 +16,9 @@ import (
 )
 
 func main() {
+	logger := slog.New(slog.NewTextHandler(os.Stdin, nil))
+	slog.SetDefault(logger)
+
 	var conf config.Config
 	err := env.Parse(&conf)
 	if err != nil {
@@ -27,9 +33,9 @@ func main() {
 
 	pkg.PrintJSON(conf)
 
-	st := store.NewStore()
-	uc := usecase.NewUseCase(st)
-	h := handler.NewHandler(uc, st)
+	st := store.NewStore(&conf)
+	uc := usecase.NewUseCase(&conf, st)
+	h := handler.NewHandler(&conf, uc, st)
 
 	e := echo.New()
 
