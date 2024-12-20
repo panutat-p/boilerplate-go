@@ -8,15 +8,15 @@ import (
 )
 
 func RegisterNullTypes(validate *validator.Validate) *validator.Validate {
-    validate.RegisterCustomTypeFunc(ValidateNull, null.String{})
-    validate.RegisterCustomTypeFunc(ValidateNull, null.Float{})
-    validate.RegisterCustomTypeFunc(ValidateNull, null.Bool{})
-    validate.RegisterCustomTypeFunc(ValidateNull, null.Time{})
-    validate.RegisterCustomTypeFunc(ValidateNull, null.Int{})
-    validate.RegisterCustomTypeFunc(ValidateNull, null.Int16{})
-    validate.RegisterCustomTypeFunc(ValidateNull, null.Int32{})
-    validate.RegisterCustomTypeFunc(ValidateNull, null.Int64{})
-    return validate
+	validate.RegisterCustomTypeFunc(ValidateNull, null.String{})
+	validate.RegisterCustomTypeFunc(ValidateNull, null.Float{})
+	validate.RegisterCustomTypeFunc(ValidateNull, null.Bool{})
+	validate.RegisterCustomTypeFunc(ValidateNull, null.Time{})
+	validate.RegisterCustomTypeFunc(ValidateNull, null.Int{})
+	validate.RegisterCustomTypeFunc(ValidateNull, null.Int16{})
+	validate.RegisterCustomTypeFunc(ValidateNull, null.Int32{})
+	validate.RegisterCustomTypeFunc(ValidateNull, null.Int64{})
+	return validate
 }
 
 func ValidateNull(field reflect.Value) interface{} {
