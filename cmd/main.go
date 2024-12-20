@@ -6,6 +6,7 @@ import (
 
 	"github.com/caarlos0/env/v11"
 	"github.com/go-playground/validator/v10"
+	"github.com/guregu/null/v5"
 	"github.com/labstack/echo/v4"
 
 	"boilerplate-go/handler"
@@ -14,6 +15,12 @@ import (
 	"boilerplate-go/internal/usecase"
 	"boilerplate-go/pkg"
 )
+
+type Fruit struct {
+	Name    string      `validate:"required"`
+	Price   int         `validate:"required"`
+	Factory null.String `validate:"max=5"`
+}
 
 func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdin, nil))
@@ -25,8 +32,20 @@ func main() {
 		panic(err)
 	}
 
-	validate := validator.New()
+	validate := validator.New(validator.WithRequiredStructEnabled())
+	validate = pkg.RegisterNullTypes(validate)
 	err = validate.Struct(conf)
+	if err != nil {
+		panic(err)
+	}
+
+	f := Fruit{
+		Name:    "Apple",
+		Price:   100,
+		Factory: null.StringFrom("Doe"),
+	}
+
+	err = validate.Struct(f)
 	if err != nil {
 		panic(err)
 	}
