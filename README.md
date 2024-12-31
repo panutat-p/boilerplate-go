@@ -8,4 +8,6 @@ https://github.com/panutat-p/boilerplate-go
 
 ## Linter
 
-https://golangci-lint.run/usage/linters
+- https://go.dev/blog/gofmt
+- https://golangci-lint.run/usage/linters
+- https://pkg.go.dev/cmd/vet
