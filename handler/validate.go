@@ -2,9 +2,16 @@ package handler
 
 import (
 	"github.com/go-playground/validator/v10"
+
+	"boilerplate-go/pkg"
 )
 
 var validate *validator.Validate
+
+func init() {
+	validate = validator.New(validator.WithRequiredStructEnabled())
+	validate = pkg.RegisterNullTypes(validate)
+}
 
 type User struct {
 	FirstName string `validate:"required"`
