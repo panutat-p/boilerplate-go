@@ -18,13 +18,11 @@ tasks:
     cmds:
       - go fmt ./...
       - gci write --skip-generated --skip-vendor -s standard -s default -s 'prefix(github.com/panutat-p)' -s localmodule .
-      - golangci-lint run \
-        -E errcheck \
-        -E gosimple \
-        -E govet \
-        -E ineffassign \
-        -E staticcheck \
-        -E unused
+      - |
+          golangci-lint run \
+          --color auto \
+          --no-config \
+          -E errcheck,gosimple,govet,ineffassign,staticcheck,unused
 
   dev:
     cmds:
