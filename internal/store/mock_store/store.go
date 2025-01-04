@@ -21,7 +21,6 @@ import (
 type MockIStore struct {
 	ctrl     *gomock.Controller
 	recorder *MockIStoreMockRecorder
-	isgomock struct{}
 }
 
 // MockIStoreMockRecorder is the mock recorder for MockIStore.
@@ -54,4 +53,18 @@ func (m *MockIStore) ReadFruitFile(ctx context.Context) ([]model.Fruit, error) {
 func (mr *MockIStoreMockRecorder) ReadFruitFile(ctx any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ReadFruitFile", reflect.TypeOf((*MockIStore)(nil).ReadFruitFile), ctx)
+}
+
+// WriteFruitFile mocks base method.
+func (m *MockIStore) WriteFruitFile(ctx context.Context, fruits []model.Fruit) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WriteFruitFile", ctx, fruits)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// WriteFruitFile indicates an expected call of WriteFruitFile.
+func (mr *MockIStoreMockRecorder) WriteFruitFile(ctx, fruits any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteFruitFile", reflect.TypeOf((*MockIStore)(nil).WriteFruitFile), ctx, fruits)
 }

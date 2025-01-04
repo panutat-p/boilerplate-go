@@ -5,7 +5,7 @@ package store
 import (
 	"context"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"log/slog"
 	"os"
 
@@ -15,6 +15,7 @@ import (
 
 type IStore interface {
 	ReadFruitFile(ctx context.Context) ([]model.Fruit, error)
+	WriteFruitFile(ctx context.Context, fruits []model.Fruit) error
 }
 
 type Store struct {
@@ -35,7 +36,7 @@ func (s *Store) ReadFruitFile(ctx context.Context) ([]model.Fruit, error) {
 	}
 	defer file.Close()
 
-	byteValue, err := ioutil.ReadAll(file)
+	byteValue, err := io.ReadAll(file)
 	if err != nil {
 		return nil, err
 	}
@@ -47,4 +48,25 @@ func (s *Store) ReadFruitFile(ctx context.Context) ([]model.Fruit, error) {
 	}
 
 	return fruits, nil
+}
+
+func (s *Store) WriteFruitFile(ctx context.Context, fruits []model.Fruit) error {
+	file, err := os.Create("./data/fruit.json")
+	if err != nil {
+		slog.ErrorContext(ctx, "Failed to Create a file", slog.Any("err", err))
+		return err
+	}
+	defer file.Close()
+
+	b, err := json.MarshalIndent(fruits, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	_, err = file.Write(b)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

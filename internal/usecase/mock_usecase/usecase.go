@@ -21,7 +21,6 @@ import (
 type MockIUseCase struct {
 	ctrl     *gomock.Controller
 	recorder *MockIUseCaseMockRecorder
-	isgomock struct{}
 }
 
 // MockIUseCaseMockRecorder is the mock recorder for MockIUseCase.
