@@ -5,6 +5,8 @@ import (
 	"errors"
 	"log/slog"
 
+	"golang.org/x/sync/errgroup"
+
 	"boilerplate-go/internal/model"
 )
 
@@ -30,5 +32,33 @@ func (u *UseCase) CheckFruits(ctx context.Context, fruits []model.Fruit) error {
 		return errors.New("empty fruits")
 	}
 
+	return nil
+}
+
+func (u *UseCase) WriteFruits(ctx context.Context, fruits []model.Fruit) error {
+	g := new(errgroup.Group)
+	for _, fruit := range fruits {
+		fruit := fruit
+		g.Go(func() error {
+			err := u.store.WriteFruitFile(ctx, []model.Fruit{fruit})
+			if err != nil {
+				slog.ErrorContext(
+					ctx,
+					"Failed to WriteFruitFile for fruit",
+					slog.Any("fruit", fruit),
+					slog.Any("err", err),
+				)
+				return err
+			}
+			return nil
+		})
+	}
+	err := g.Wait()
+	if err != nil {
+		slog.ErrorContext(ctx, "Failed to WriteFruits", slog.Any("err", err))
+		return err
+	}
+
+	slog.InfoContext(ctx, "Succeeded to WriteFruits")
 	return nil
 }

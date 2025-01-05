@@ -13,6 +13,7 @@ import (
 type IUseCase interface {
 	GetFruits(ctx context.Context) ([]model.Fruit, error)
 	CheckFruits(ctx context.Context, fruits []model.Fruit) error
+	WriteFruits(ctx context.Context, fruits []model.Fruit) error
 }
 
 type UseCase struct {

@@ -68,3 +68,17 @@ func (mr *MockIUseCaseMockRecorder) GetFruits(ctx any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFruits", reflect.TypeOf((*MockIUseCase)(nil).GetFruits), ctx)
 }
+
+// WriteFruits mocks base method.
+func (m *MockIUseCase) WriteFruits(ctx context.Context, fruits []model.Fruit) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WriteFruits", ctx, fruits)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// WriteFruits indicates an expected call of WriteFruits.
+func (mr *MockIUseCaseMockRecorder) WriteFruits(ctx, fruits any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WriteFruits", reflect.TypeOf((*MockIUseCase)(nil).WriteFruits), ctx, fruits)
+}
