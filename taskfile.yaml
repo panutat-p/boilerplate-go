@@ -34,9 +34,8 @@ tasks:
 
   test:
     cmds:
-      - go test -v -cover -race ./...
+      - go test -v -race -cover -coverprofile=coverage.out ./...
 
   coverage:
     cmds:
-      - go test -coverprofile=coverage.out ./...
       - go tool cover -html=coverage.out -o coverage.html
