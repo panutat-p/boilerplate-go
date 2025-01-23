@@ -1,0 +1,12 @@
+*.md
+*.log
+.git
+.aws
+*.env
+*.env.*
+.coverage
+.coverage.*
+.idea
+.vscode
+
+bin
