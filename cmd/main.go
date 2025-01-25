@@ -42,6 +42,7 @@ func main() {
 	h := handler.NewHandler(&conf, uc, st)
 
 	e := echo.New()
+	e.Use(echomiddleware.Recover())
 	e.Use(echomiddleware.CORSWithConfig(
 		echomiddleware.CORSConfig{
 			Skipper:      echomiddleware.DefaultSkipper,
