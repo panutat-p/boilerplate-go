@@ -27,14 +27,15 @@ func main() {
 		panic(err)
 	}
 
+	pkg.PrintJSON(conf)
+
 	validate := validator.New(validator.WithRequiredStructEnabled())
 	validate = pkg.RegisterNullTypes(validate)
+	validate = pkg.RegisterDecimalTypes(validate)
 	err = validate.Struct(conf)
 	if err != nil {
 		panic(err)
 	}
-
-	pkg.PrintJSON(conf)
 
 	st := store.NewStore(&conf)
 	uc := usecase.NewUseCase(&conf, st)

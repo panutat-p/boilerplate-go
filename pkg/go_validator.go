@@ -5,6 +5,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/guregu/null/v5"
+	"github.com/shopspring/decimal"
 )
 
 func RegisterNullTypes(validate *validator.Validate) *validator.Validate {
@@ -16,6 +17,12 @@ func RegisterNullTypes(validate *validator.Validate) *validator.Validate {
 	validate.RegisterCustomTypeFunc(ValidateNull, null.Int16{})
 	validate.RegisterCustomTypeFunc(ValidateNull, null.Int32{})
 	validate.RegisterCustomTypeFunc(ValidateNull, null.Int64{})
+	return validate
+}
+
+func RegisterDecimalTypes(validate *validator.Validate) *validator.Validate {
+	validate.RegisterCustomTypeFunc(ValidateDecimal, decimal.Decimal{})
+	validate.RegisterCustomTypeFunc(ValidateDecimal, decimal.NullDecimal{})
 	return validate
 }
 
@@ -52,6 +59,20 @@ func ValidateNull(field reflect.Value) interface{} {
 		if t.Valid {
 			return t.Int64
 		}
+	}
+	return nil
+}
+
+func ValidateDecimal(field reflect.Value) interface{} {
+	v := field.Interface()
+	switch t := v.(type) {
+	case decimal.Decimal:
+		return t.String()
+	case decimal.NullDecimal:
+		if !t.Valid {
+			return nil
+		}
+		return t.Decimal.String()
 	}
 	return nil
 }
