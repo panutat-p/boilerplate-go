@@ -9,20 +9,25 @@ import (
 )
 
 func RegisterNullTypes(validate *validator.Validate) *validator.Validate {
-	validate.RegisterCustomTypeFunc(ValidateNull, null.String{})
-	validate.RegisterCustomTypeFunc(ValidateNull, null.Float{})
-	validate.RegisterCustomTypeFunc(ValidateNull, null.Bool{})
-	validate.RegisterCustomTypeFunc(ValidateNull, null.Time{})
-	validate.RegisterCustomTypeFunc(ValidateNull, null.Int{})
-	validate.RegisterCustomTypeFunc(ValidateNull, null.Int16{})
-	validate.RegisterCustomTypeFunc(ValidateNull, null.Int32{})
-	validate.RegisterCustomTypeFunc(ValidateNull, null.Int64{})
+	validate.RegisterCustomTypeFunc(
+		ValidateNull,
+		null.String{},
+		null.Bool{},
+		null.Float{},
+		null.Int16{},
+		null.Int32{},
+		null.Int{},
+		null.Time{},
+	)
 	return validate
 }
 
 func RegisterDecimalTypes(validate *validator.Validate) *validator.Validate {
-	validate.RegisterCustomTypeFunc(ValidateDecimal, decimal.Decimal{})
-	validate.RegisterCustomTypeFunc(ValidateDecimal, decimal.NullDecimal{})
+	validate.RegisterCustomTypeFunc(
+		ValidateDecimal,
+		decimal.Decimal{},
+		decimal.NullDecimal{},
+	)
 	return validate
 }
 
@@ -34,19 +39,14 @@ func ValidateNull(field reflect.Value) interface{} {
 		if t.Valid {
 			return t.String
 		}
-	case null.Float:
-		if t.Valid {
-			return t.Float64
-		}
 	case null.Bool:
 		if t.Valid {
 			return t.Bool
 		}
-	case null.Time:
+	case null.Float:
 		if t.Valid {
-			return t.Time
+			return t.Float64
 		}
-
 	case null.Int16:
 		if t.Valid {
 			return t.Int16
@@ -58,6 +58,10 @@ func ValidateNull(field reflect.Value) interface{} {
 	case null.Int:
 		if t.Valid {
 			return t.Int64
+		}
+	case null.Time:
+		if t.Valid {
+			return t.Time
 		}
 	}
 	return nil

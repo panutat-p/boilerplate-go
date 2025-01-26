@@ -2,7 +2,6 @@ package main
 
 import (
 	"log/slog"
-	"net/http"
 	"os"
 
 	"github.com/caarlos0/env/v11"
@@ -48,7 +47,7 @@ func main() {
 			Skipper:      echomiddleware.DefaultSkipper,
 			AllowOrigins: []string{"*"},
 			AllowHeaders: []string{"*"},
-			AllowMethods: []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete},
+			AllowMethods: []string{}, // allow all
 		}),
 	)
 
