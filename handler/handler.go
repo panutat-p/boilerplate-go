@@ -7,7 +7,7 @@ import (
 	govalidator "github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 
-	"boilerplate-go/internal/config"
+	"boilerplate-go/config"
 	"boilerplate-go/internal/store"
 	"boilerplate-go/internal/usecase"
 	"boilerplate-go/pkg"

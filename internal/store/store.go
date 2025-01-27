@@ -9,7 +9,7 @@ import (
 	"log/slog"
 	"os"
 
-	"boilerplate-go/internal/config"
+	"boilerplate-go/config"
 	"boilerplate-go/internal/model"
 )
 

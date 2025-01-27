@@ -5,7 +5,7 @@ package usecase
 import (
 	"context"
 
-	"boilerplate-go/internal/config"
+	"boilerplate-go/config"
 	"boilerplate-go/internal/model"
 	"boilerplate-go/internal/store"
 )

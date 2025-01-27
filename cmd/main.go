@@ -9,8 +9,8 @@ import (
 	"github.com/labstack/echo/v4"
 	echomiddleware "github.com/labstack/echo/v4/middleware"
 
+	"boilerplate-go/config"
 	"boilerplate-go/handler"
-	"boilerplate-go/internal/config"
 	"boilerplate-go/internal/store"
 	"boilerplate-go/internal/usecase"
 	"boilerplate-go/pkg"
