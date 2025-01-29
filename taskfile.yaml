@@ -39,3 +39,7 @@ tasks:
   coverage:
     cmds:
       - go tool cover -html=coverage.out -o coverage.html
+
+  build:
+    cmds:
+      - go build -o ./bin/app ./cmd/main.go
