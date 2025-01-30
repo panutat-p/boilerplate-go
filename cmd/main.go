@@ -13,6 +13,7 @@ import (
 	"boilerplate-go/handler"
 	"boilerplate-go/internal/store"
 	"boilerplate-go/internal/usecase"
+	"boilerplate-go/middleware"
 	"boilerplate-go/pkg"
 )
 
@@ -50,6 +51,7 @@ func main() {
 			AllowMethods: []string{}, // allow all
 		}),
 	)
+	e.Use(middleware.RequestLogger())
 
 	e.GET("/", h.Health)
 	e.GET("/public/fruits", h.GetFruits)
