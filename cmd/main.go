@@ -11,6 +11,7 @@ import (
 
 	"boilerplate-go/config"
 	"boilerplate-go/handler"
+	"boilerplate-go/internal/external"
 	"boilerplate-go/internal/store"
 	"boilerplate-go/internal/usecase"
 	"boilerplate-go/middleware"
@@ -38,7 +39,8 @@ func main() {
 	}
 
 	st := store.NewStore(&conf)
-	uc := usecase.NewUseCase(&conf, st)
+	ex := external.NewExternal()
+	uc := usecase.NewUseCase(&conf, st, ex)
 	h := handler.NewHandler(&conf, uc, st)
 
 	e := echo.New()

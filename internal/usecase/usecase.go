@@ -6,6 +6,7 @@ import (
 	"context"
 
 	"boilerplate-go/config"
+	"boilerplate-go/internal/external"
 	"boilerplate-go/internal/model"
 	"boilerplate-go/internal/store"
 )
@@ -21,7 +22,12 @@ type UseCase struct {
 	store  store.IStore
 }
 
-func NewUseCase(config *config.Config, store store.IStore) *UseCase {
+func NewUseCase(
+	config *config.Config,
+	store store.IStore,
+	external external.IExternal,
+) *UseCase {
+
 	return &UseCase{
 		config: config,
 		store:  store,
