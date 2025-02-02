@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"net/http"
 
-	govalidator "github.com/go-playground/validator/v10"
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 
 	"boilerplate-go/config"
@@ -17,19 +17,20 @@ type Handler struct {
 	config    *config.Config
 	useCase   usecase.IUseCase
 	store     store.IStore
-	validator *govalidator.Validate
+	validator *validator.Validate
 }
 
 func NewHandler(config *config.Config, useCase usecase.IUseCase, store store.IStore) *Handler {
 
-	validator := govalidator.New(govalidator.WithRequiredStructEnabled())
-	validator = pkg.RegisterNullTypes(validator)
+	val := validator.New(validator.WithRequiredStructEnabled())
+	val = pkg.RegisterNullTypes(val)
+	val = pkg.RegisterDecimalTypes(val)
 
 	return &Handler{
 		config:    config,
 		useCase:   useCase,
 		store:     store,
-		validator: validator,
+		validator: val,
 	}
 }
 
