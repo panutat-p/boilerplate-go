@@ -10,6 +10,9 @@
 package mock_external
 
 import (
+	external "boilerplate-go/internal/external"
+	reflect "reflect"
+
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -17,6 +20,7 @@ import (
 type MockIExternal struct {
 	ctrl     *gomock.Controller
 	recorder *MockIExternalMockRecorder
+	isgomock struct{}
 }
 
 // MockIExternalMockRecorder is the mock recorder for MockIExternal.
@@ -34,4 +38,18 @@ func NewMockIExternal(ctrl *gomock.Controller) *MockIExternal {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockIExternal) EXPECT() *MockIExternalMockRecorder {
 	return m.recorder
+}
+
+// ListUsers mocks base method.
+func (m *MockIExternal) ListUsers() []external.ResponseUsers {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListUsers")
+	ret0, _ := ret[0].([]external.ResponseUsers)
+	return ret0
+}
+
+// ListUsers indicates an expected call of ListUsers.
+func (mr *MockIExternalMockRecorder) ListUsers() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListUsers", reflect.TypeOf((*MockIExternal)(nil).ListUsers))
 }
