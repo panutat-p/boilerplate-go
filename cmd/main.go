@@ -19,7 +19,15 @@ import (
 )
 
 func main() {
-	logger := slog.New(slog.NewTextHandler(os.Stdin, nil))
+	logger := slog.New(
+		slog.NewTextHandler(
+			os.Stdin,
+			&slog.HandlerOptions{
+				Level:     slog.LevelInfo,
+				AddSource: true,
+			},
+		),
+	)
 	slog.SetDefault(logger)
 
 	var conf config.Config
