@@ -1,6 +1,6 @@
 package store
 
-//go:generate mockgen -source=store.go -destination=mock_store/store.go -package=mock_store
+//go:generate mockgen -source=store.go -destination=../mock/store.go -package=mock
 
 import (
 	"context"

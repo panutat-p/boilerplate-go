@@ -1,6 +1,6 @@
 package usecase
 
-//go:generate mockgen -source=usecase.go -destination=mock_usecase/usecase.go -package=mock_usecase
+//go:generate mockgen -source=usecase.go -destination=../mock/usecase.go -package=mock
 
 import (
 	"context"

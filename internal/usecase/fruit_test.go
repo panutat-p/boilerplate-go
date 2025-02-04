@@ -8,23 +8,22 @@ import (
 	"github.com/stretchr/testify/suite"
 	"go.uber.org/mock/gomock"
 
-	"boilerplate-go/internal/external/mock_external"
+	"boilerplate-go/internal/mock"
 	"boilerplate-go/internal/model"
-	"boilerplate-go/internal/store/mock_store"
 )
 
 type UseCaseTestSuite struct {
 	suite.Suite
 	ctrl         *gomock.Controller
-	mockStore    *mock_store.MockIStore
-	mockExternal *mock_external.MockIExternal
+	mockStore    *mock.MockIStore
+	mockExternal *mock.MockIExternal
 	useCase      *UseCase
 }
 
 func (suite *UseCaseTestSuite) SetupTest() {
 	suite.ctrl = gomock.NewController(suite.T())
-	suite.mockStore = mock_store.NewMockIStore(suite.ctrl)
-	suite.mockExternal = mock_external.NewMockIExternal(suite.ctrl)
+	suite.mockStore = mock.NewMockIStore(suite.ctrl)
+	suite.mockExternal = mock.NewMockIExternal(suite.ctrl)
 	suite.useCase = NewUseCase(nil, suite.mockStore, suite.mockExternal)
 }
 

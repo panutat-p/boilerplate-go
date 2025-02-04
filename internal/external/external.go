@@ -1,6 +1,6 @@
 package external
 
-//go:generate mockgen -source=external.go -destination=mock_external/external.go -package=mock_external
+//go:generate mockgen -source=external.go -destination=../mock/external.go -package=mock
 
 import (
 	"time"
@@ -8,7 +8,7 @@ import (
 	"github.com/go-resty/resty/v2"
 )
 
-type IExternal interface{
+type IExternal interface {
 	ListUsers() []ResponseUsers
 }
 
