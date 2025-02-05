@@ -43,3 +43,7 @@ tasks:
   build:
     cmds:
       - go build -o ./bin/app ./cmd/main.go
+
+  build-docker:
+    cmds:
+      - docker buildx build --platform linux/arm64 -t boilerplate-go:latest .
