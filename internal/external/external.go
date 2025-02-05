@@ -20,10 +20,10 @@ func NewExternal() *External {
 	getUser := resty.
 		New().
 		SetBaseURL("https://gorest.co.in").
-		SetTimeout(10 * time.Second).
+		SetTimeout(15 * time.Second).
 		SetRetryCount(3).
-		SetRetryWaitTime(1 * time.Second).
-		SetRetryMaxWaitTime(5 * time.Second)
+		SetRetryWaitTime(10 * time.Second).
+		SetRetryMaxWaitTime(60 * time.Second)
 
 	return &External{
 		getUser: getUser,
