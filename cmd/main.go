@@ -64,6 +64,7 @@ func main() {
 	e.Use(middleware.RequestLogger())
 
 	e.GET("/", h.Health)
+	e.GET("/public/reflect", h.GetReflect)
 	e.GET("/public/fruits", h.GetFruits)
 
 	err = e.Start(":" + conf.Port)

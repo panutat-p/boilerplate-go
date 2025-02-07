@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"strings"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -15,20 +16,21 @@ func RequestLogger() echo.MiddlewareFunc {
 
 			r := c.Request()
 
-			if r.URL.Path == "/" || r.URL.Path == "/healthz" || r.URL.Path == "/metrics" || r.URL.Path == "/readyz" {
+			if r.URL.Path == "/" || r.URL.Path == "/health" {
 				return next(c)
 			}
 
 			if r.Body != nil {
-				b, _ := io.ReadAll(r.Body)
-				var removedSpacesBody []byte
-				for _, c := range b {
-					if c != ' ' && c != '\n' && c != '\r' && c != '\t' {
-						removedSpacesBody = append(removedSpacesBody, c)
-					}
+				b, err := io.ReadAll(r.Body)
+				if err != nil {
+					fmt.Println("🔴 err:", err)
+					return next(c)
 				}
-				fmt.Printf("%s    %s %s %s\n", time.Now().Format(time.DateTime), r.Method, r.URL.Path, string(removedSpacesBody))
-				r.Body = io.NopCloser(bytes.NewBuffer(removedSpacesBody))
+				r.Body = io.NopCloser(bytes.NewBuffer(b))
+
+				text := strings.ReplaceAll(string(b), "\n", "")
+
+				fmt.Printf("%s    %s %s %s\n", time.Now().Format(time.DateTime), r.Method, r.URL.Path, text)
 			}
 
 			return next(c)

@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"log/slog"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
@@ -41,9 +40,25 @@ func (h *Handler) Health(c echo.Context) error {
 	})
 }
 
+func (h *Handler) GetReflect(c echo.Context) error {
+	var payload map[string]any
+	err := c.Bind(&payload)
+	if err != nil {
+		return c.JSON(
+			http.StatusBadRequest,
+			map[string]any{
+				"error": err.Error(),
+			})
+	}
+
+	return c.JSON(
+		http.StatusOK,
+		payload,
+	)
+}
+
 func (h *Handler) GetFruits(c echo.Context) error {
 	ctx := c.Request().Context()
-	slog.Info("GET /public/fruits")
 
 	fruits, err := h.useCase.GetFruits(ctx)
 	if err != nil {
