@@ -23,7 +23,7 @@ func RequestLogger() echo.MiddlewareFunc {
 			if r.Body != nil {
 				b, err := io.ReadAll(r.Body)
 				if err != nil {
-					fmt.Println("🔴 err:", err)
+					r.Body = io.NopCloser(bytes.NewBuffer(nil))
 					return next(c)
 				}
 				r.Body = io.NopCloser(bytes.NewBuffer(b))
