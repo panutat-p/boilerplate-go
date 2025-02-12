@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log/slog"
+	"runtime"
 
 	"golang.org/x/sync/errgroup"
 
@@ -36,7 +37,8 @@ func (u *UseCase) CheckFruits(ctx context.Context, fruits []model.Fruit) error {
 }
 
 func (u *UseCase) WriteFruits(ctx context.Context, fruits []model.Fruit) error {
-	g := new(errgroup.Group)
+	g, ctx := errgroup.WithContext(ctx)
+	g.SetLimit(runtime.NumCPU())
 	for _, fruit := range fruits {
 		fruit := fruit
 		g.Go(func() error {
