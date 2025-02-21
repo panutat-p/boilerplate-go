@@ -3,6 +3,7 @@ package external
 //go:generate mockgen -source=external.go -destination=../mock/external.go -package=mock
 
 import (
+	"log/slog"
 	"time"
 
 	"github.com/go-resty/resty/v2"
@@ -24,6 +25,28 @@ func NewExternal() *External {
 		SetRetryCount(3).
 		SetRetryWaitTime(10 * time.Second).
 		SetRetryMaxWaitTime(60 * time.Second)
+
+	getUser.OnBeforeRequest(func(client *resty.Client, request *resty.Request) error {
+		slog.InfoContext(
+			request.Context(),
+			"request GET /public/v2/users",
+			slog.String("method", request.Method),
+			slog.String("url", request.URL),
+			slog.Any("headers", request.Header),
+			slog.Any("body", request.Body),
+		)
+		return nil
+	})
+
+	getUser.OnAfterResponse(func(client *resty.Client, response *resty.Response) error {
+		slog.InfoContext(
+			response.Request.Context(),
+			"response GET /public/v2/users",
+			slog.Int("status_code", response.StatusCode()),
+			slog.String("body", response.String()),
+		)
+		return nil
+	})
 
 	return &External{
 		getUser: getUser,
